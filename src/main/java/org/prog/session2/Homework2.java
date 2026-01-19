@@ -6,7 +6,7 @@ import java.util.Random;
 // - On each cycle generate random i and random j up to 1000
 // - If (i - j) % 7 == 0 -> stop the cycle (use break)
 
-public class homework2 {
+public class Homework2 {
 
     public static void main(String[] args) {
         Random random = new Random();
