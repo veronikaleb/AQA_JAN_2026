@@ -19,9 +19,7 @@ public class Homework4 {
                 "abcd@a.a",
                 "abcd.a@fakemail"
         };
-        for (int i = 0; i < emails.length; i++) {
-            String s = emails[i];
-
+        for (String s : emails) {
             int firstAt = s.indexOf("@");
             int lastAt = s.lastIndexOf("@");
             int lastDot = s.lastIndexOf(".");
