@@ -1,7 +1,6 @@
 package org.prog.collections.session11;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 //TODO: Create list of Android phones and list of Apple Phones (10 each)
