@@ -14,80 +14,43 @@ import java.util.List;
 public class ListDemo {
 
     public static void main(String[] args) {
-//        List<String> list = new ArrayList<>();
-//        System.out.println(list.isEmpty());
-//        System.out.println(list.size());
-//        list.add("a");//0
-//        list.add(null);//1
-//        list.add(null);//2
-//        list.add("b");//3
-//        System.out.println(list.isEmpty());
-//        System.out.println(list.size());
-//        System.out.println(list.get(0));
-//        System.out.println(list.get(3));
-//        list.add(1, "c");
-//        System.out.println(list.size());
-//        System.out.println(list.get(0));
-//        System.out.println(list.get(1));
-//        System.out.println(list.get(4));
+        List<String> androidPhones = new ArrayList<>();
+        androidPhones.add("Samsung Galaxy S26 Ultra Titanium");
+        androidPhones.add("Samsung Galaxy S26 Pink Edition");
+        androidPhones.add("Google Pixel 10 Pro XL");
+        androidPhones.add("Google Pixel 10a Berry");
+        androidPhones.add("Xiaomi 16 Ultra");
+        androidPhones.add("OnePlus 14 Pro");
+        androidPhones.add("Motorola Razr 60 Ultra");
+        androidPhones.add("Nothing Phone 4");
+        androidPhones.add("Asus Zenfone 13");
+        androidPhones.add("Oppo Find X9 Pro");
 
-        List<String> list1 = new ArrayList<>();
-        List<String> list2 = new ArrayList<>();
+        List<String> applePhones = new ArrayList<>();
+        applePhones.add("iPhone 17 Pro Max");
+        applePhones.add("iPhone 17 Air");
+        applePhones.add("iPhone 17 Plus Teal");
+        applePhones.add("iPhone 17 Pro Gold");
+        applePhones.add("iPhone Fold");
+        applePhones.add("iPhone 16s Pro");
+        applePhones.add("iPhone 16 Deep Purple");
+        applePhones.add("iPhone 17 Pro Desert Titanium");
+        applePhones.add("iPhone 17 E");
+        applePhones.add("iPhone 17 Pro Silver");
 
-        list1.add("a");
-        list1.add("b");
-        list1.add("c");
-        list1.add("c");
-        list1.add("d");
+        System.out.println("Pink Android in list: " + hasColor(androidPhones, "Pink"));
+        System.out.println("Gold Android in list: " + hasColor(androidPhones, "Gold"));
 
-        list2.add("d");
-        list2.add("e");
-        list2.add("f");
-        list2.add("g");
+        System.out.println("Pink Apple in list: " + hasColor(applePhones, "Pink"));
+        System.out.println("Gold Apple in list: " + hasColor(applePhones, "Gold"));
+    }
 
-//        list1.addAll(list2);
-//        for (int i = 0; i < list1.size(); i++) {
-//            System.out.println(list1.get(i));
-//        }
-//        System.out.println("============================");
-//        list1.removeAll(list2);
-//        for (int i = 0; i < list1.size(); i++) {
-//            System.out.println(list1.get(i));
-//        }
-
-        List<Owner> owners = new ArrayList<>();
-        owners.add(new Owner("Alice","A"));
-        owners.add(new Owner("Billy","B"));
-        owners.add(new Owner("Charlie","C"));
-        owners.add(new Owner("Douglas","D"));
-        owners.add(new Owner("Evil","E"));
-        owners.add(new Owner("Fred","F"));
-        owners.add(new Owner("Gary","G"));
-        owners.add(new Owner("Henry","H"));
-        owners.add(new Owner("Ivan","I"));
-        owners.add(new Owner("Jack","J"));
-
-        Collections.shuffle(owners);
-        System.out.println(owners);
-
-
-//        System.out.println(owners.size());
-//        owners.remove(new Owner("Charlie","C"));
-//        System.out.println(owners.size());
-
-//        System.out.println(owners.contains(new Owner("Evil","E")));
-//
-//        List<Owner> debtOwners = new ArrayList<>();
-//        debtOwners.add(new Owner("Alice", "A"));
-//        debtOwners.add(new Owner("Billy", "B"));
-//
-//        owners.set(0, new Owner("Kate", "K"));
-//        List<Owner> subOwners = owners.subList(2,5);
-//
-//        for (Owner owner : subOwners) {
-//            System.out.println(owner);
-//        }
-//
-//        System.out.println(owners.get(100));
+    private static boolean hasColor(List<String> list, String color) {
+        for (String phone : list) {
+            if (phone.toLowerCase().contains(color.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
