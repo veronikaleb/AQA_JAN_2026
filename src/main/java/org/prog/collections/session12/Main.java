@@ -23,7 +23,10 @@ public class Main {
         bensPhones.add(new Phone("iPhone 17 Pro"));
 
         phoneOwners.put(ben, bensPhones);
-        phoneOwners.put(alice, new HashSet<>(Arrays.asList(new Phone("Google Pixel 10"))));
+
+        Set<Phone> alicesPhones = new HashSet<>();
+        alicesPhones.add(new Phone("Google Pixel 10"));
+        phoneOwners.put(alice, alicesPhones);
 
         Set<Phone> alicesSet = phoneOwners.get(new PhoneOwner("Alice"));
         if (alicesSet != null) {
@@ -31,7 +34,7 @@ public class Main {
             alicesSet.add(new Phone("Xiaomi 16 Ultra"));
         }
 
-        System.out.println("Phones for " + new PhoneOwner("Ben") + ": " + phoneOwners.get(new PhoneOwner("Ben")));
-        System.out.println("Phones for " + new PhoneOwner("Alice") + ": " + phoneOwners.get(new PhoneOwner("Alice")));
+        System.out.println("Phones for Ben: " + phoneOwners.get(new PhoneOwner("Ben")));
+        System.out.println("Phones for Alice: " + phoneOwners.get(new PhoneOwner("Alice")));
     }
 }
