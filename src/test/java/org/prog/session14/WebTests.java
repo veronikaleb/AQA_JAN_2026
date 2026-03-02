@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 //TODO: write testng tests to go to allo.ua
-//TODO: find seach input
+//TODO: find search input
 //TODO: search for iphone 17 pro max
 
 public class WebTests {
