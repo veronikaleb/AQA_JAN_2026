@@ -4,100 +4,98 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.prog.session16.page.W3ShcoolsPage;
+import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 
 //TODO: Re-work you allo.ua tests to use page object
 
 public class PageObjectTests {
 
     private WebDriver driver;
-    private W3ShcoolsPage w3ShcoolsPage;
+    private AlloPage alloPage;
 
     @BeforeSuite
     public void setUp() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        w3ShcoolsPage = new W3ShcoolsPage(driver);
+        // Ініціалізуємо наш Page Object
+        alloPage = new AlloPage(driver);
     }
 
     @AfterSuite
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
-    public void actionsTest() {
-        w3ShcoolsPage.loadPage("/cssref/tryit.php?filename=trycss_sel_hover");
-        w3ShcoolsPage.acceptCookiesIfPresent();
-        w3ShcoolsPage.switchToFrame(By.id("iframeResult_0"));
+    public void alloIphoneTest() {
+        alloPage.open();
 
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        alloPage.searchFor("iphone");
 
-        Actions linkActions = new Actions(driver);
-        WebElement link1 = webDriverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.linkText("w3schools.com")));
-        WebElement link2 = webDriverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.linkText("wikipedia.org")));
-        linkActions.moveToElement(link1);
-        linkActions.pause(Duration.ofSeconds(5));
-        linkActions.moveToElement(link2);
-        linkActions.pause(Duration.ofSeconds(5));
-        linkActions.perform();
+        List<WebElement> productItems = alloPage.getProductItems();
+        int itemsToCheck = Math.min(3, productItems.size());
+
+        Assert.assertTrue(itemsToCheck > 0, "Товари не знайдені на сторінці!");
+
+        for (int i = 0; i < itemsToCheck; i++) {
+            WebElement currentItem = productItems.get(i);
+
+            String title = alloPage.getItemTitle(currentItem);
+            String price = alloPage.getItemPrice(currentItem);
+
+            Assert.assertFalse(title.isEmpty(), "Назва товару порожня для позиції " + (i + 1));
+            Assert.assertFalse(price.isEmpty(), "Ціна товару порожня для позиції " + (i + 1));
+
+            System.out.println("Товар #" + (i + 1) + ": " + title + " | Ціна: " + price);
+        }
+    }
+}
+
+class AlloPage {
+    private final WebDriver driver;
+    private final WebDriverWait wait;
+
+    private final By searchInputLocator = By.id("search-form__input");
+    private final By productCardsLocator = By.cssSelector(".products-layout__item");
+    private final By titleLocator = By.cssSelector(".product-card__title");
+    private final By priceLocator = By.cssSelector(".v-pb__cur");
+
+    public AlloPage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
-    @Test
-    public void iFrameTest() {
-        w3ShcoolsPage.loadPage("/tags/tryit.asp?filename=tryhtml_button_test");
-        w3ShcoolsPage.acceptCookiesIfPresent();
-        w3ShcoolsPage.switchToFrame(By.id("iframeResult"));
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement element =
-                webDriverWait.until(
-                        ExpectedConditions.visibilityOfElementLocated(
-                                By.xpath("//button[text()='Click Me!']")));
+    public void open() {
+        driver.get("https://allo.ua/");
     }
 
-    @Test
-    public void myWebTest() {
-        driver.get("https://www.cloudflare.com/");
+    public void searchFor(String query) {
+        WebElement searchInput = wait.until(ExpectedConditions.elementToBeClickable(searchInputLocator));
+        searchInput.clear();
+        searchInput.sendKeys(query);
+        searchInput.submit();
+    }
 
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5L));
+    public List<WebElement> getProductItems() {
+        wait.until(ExpectedConditions.presenceOfElementLocated(productCardsLocator));
+        return driver.findElements(productCardsLocator);
+    }
 
-        webDriverWait.until(
-                ExpectedConditions.presenceOfElementLocated(By.id("onetrust-accept-btn-handler")));
+    public String getItemTitle(WebElement item) {
+        return item.findElement(titleLocator).getText();
+    }
 
-//        WebElement acceptCookies =webDriverWait.until(
-//                ExpectedConditions.elementToBeClickable(By.id("onetrust-accept-btn-handler")));
-//        acceptCookies.click();
-
-        webDriverWait
-                .until(
-                        ExpectedConditions.elementToBeClickable(By.id("onetrust-accept-btn-handler")))
-                .click();
-
-        WebElement sideMenu = driver.findElement(By.xpath(
-                "//button[@aria-label='Toggle menu']"));
-        sideMenu.click();
-
-        WebElement loginBtn = driver.findElement(By.linkText("Log in"));
-        loginBtn.click();
-
-//        WebElement emailInput = driver.findElement(By.id("email"));
-//        emailInput.click();
-//        emailInput.sendKeys("test@test.com");
-//
-//        WebElement passwordInput = driver.findElement(By.id("password"));
-//        passwordInput.click();
-//        passwordInput.sendKeys("test123");
-
-        System.out.println("done!");
+    public String getItemPrice(WebElement item) {
+        return item.findElement(priceLocator).getText();
     }
 }

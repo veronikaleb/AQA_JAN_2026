@@ -16,7 +16,7 @@ public class SQLTests {
     public void beforeSuite() throws SQLException {
         conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/db",
-                "root",
+                "user",
                 "password"
         );
     }
