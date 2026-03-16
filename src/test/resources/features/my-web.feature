@@ -1,15 +1,12 @@
-Feature: my web feature
+Feature: Test with API + DB + Selenium
 
-  Scenario: my scenario
-    Given Я открываю браузер
-    When Я захожу на google.com
-    When Ввожу в поиск "gherkin scenario"
-    When Нажимаю "мне повезет"
-    Then Открывается сайт "https://cucumber.io/docs/gherkin/reference/"
-
-  Scenario: my scenario
-    Given Я открываю браузер
-    When Я захожу на google.com
-    When Ввожу в поиск "star wars"
-    When Нажимаю "мне повезет"
-    Then Открывается сайт "https://en.wikipedia.org/wiki/Star_Wars"
+  Scenario: Retrieve, store and google random people
+    #API
+    Given I request 3 random people from service
+    #DB
+    Given I store these people in DB
+    When I pick 1 random person from DB
+    #WEB
+    When I open google main page
+    When I accept cookies if present
+    Then I set search field to that person's first and last name
